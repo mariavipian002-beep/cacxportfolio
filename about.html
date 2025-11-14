@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        /* ALL STYLES MATCHING THE RED THEME FROM INDEX.HTML */
+        :root {
+            --bg-color: #0b0b0b;
+            --text-color: #f8f8f8;
+            --accent-color: #e70000; /* Deep Red Theme */
+            --secondary-bg: #1a1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            /* Adjusted gradient to match homepage's dark red/black background */
+            background: radial-gradient(circle at top left, #1a0000, #000); 
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative; 
+            
+            /* --- NEW: Subtle Background Noise --- */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMCcgaGVpZ2h0PScxMCc+CiAgPHJlY3Qgd2lkdGg9JzEwJyBoZWlnaHQ9JzEwJyBmaWxsPScjMWYwMDAwJy8+CiAgPHBhdGggZD0nTTAgMEwxMCAxMFpNMTAtMEwwIDEwWicgc3Ryb2tlLXdpZHRoPScwLjUnIHN0cm9rZT0nIzI4MDAwMCcvPgogPC9zdmc+');
+            background-repeat: repeat;
+            /* ----------------------------------- */
+        }
+
+        /* --- New Canvas Background Style --- */
+        #spider-canvas {
+            position: fixed; /* Fixed position so it covers the whole screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place it behind the content */
+            pointer-events: none; /* Allows clicks to pass through to the content */
+        }
+        /* ----------------------------------- */
+
+
+        a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-shadow: 0 0 5px var(--accent-color);
+        }
+
+        .navbar nav a {
+            margin-left: 30px;
+            font-size: 16px;
+        }
+
+        .navbar nav a.active {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        /* Generic Button Styles */
+        .cta-buttons a, .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-right: 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            text-align: center;
+            border: 2px solid var(--accent-color);
+            transition: all 0.3s;
+        }
+
+        .btn.primary {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .btn.primary:hover {
+            background: transparent;
+            color: var(--accent-color);
+        }
+        
+        /* About Page Specific Styles */
+        .about-page-section {
+            padding: 120px 8% 80px; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative; 
+            z-index: 10;
+        }
+        
+        .about-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .about-header h1 {
+            font-size: 55px;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+        
+        .about-header p {
+            font-size: 18px;
+            color: #aaa;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            max-width: 1200px;
+        }
+        
+        .about-text-block {
+            background: transparent; 
+        }
+
+        .about-text-block h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+        
+        .about-text-block p {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        
+        /* === UPDATED PROFILE CARD STYLE: CRYSTAL TRANSPARENT === */
+        .profile-card {
+            background: transparent; /* Absolutely no background color */
+            padding: 30px;
+            border-radius: 10px;
+            /* Keep existing box-shadow and border for definition */
+            box-shadow: 0 0 25px rgba(231, 0, 0, 0.5), 0 0 50px rgba(231, 0, 0, 0.2); 
+            border: 1px solid rgba(231, 0, 0, 0.3);
+            text-align: center;
+            /* Remove backdrop-filter to ensure no blur, just clear view */
+            backdrop-filter: none; 
+        }
+        /* ===================================================== */
+        
+        .profile-card img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-color);
+            margin-bottom: 20px;
+        }
+        
+        .profile-card h4 {
+            font-size: 24px;
+            color: var(--accent-color);
+        }
+        
+        .profile-card span {
+            display: block;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+        
+        .skills-list {
+            list-style: none;
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        .skills-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #333;
+            color: #ddd;
+        }
+        
+        .skills-list li i {
+            color: var(--accent-color);
+            margin-right: 10px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="spider-canvas"></canvas>
+
+    <header class="navbar">
+        <div class="logo">Portfolio</div>
+        <nav>
+            <a href="index.html">Home</a> 
+            <a href="about.html" class="active">About</a> 
+            <a href="portfolio.html">Portfolio</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-page-section">
+            <div class="about-header">
+                <h1>A Deep Dive Into **My Vibe**</h1>
+                <p>Front-End Developer & Vibe Creator</p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-text-block">
+                    <h3>The Story Behind the Code</h3>
+                    <p>
+                        I'm **Cacx**, and my mission is to build digital experiences that are not just functional, but genuinely captivating. 
+                        My journey began with a curiosity for design and evolved into a passion for writing clean, efficient, and semantic code. 
+                        I believe the **"vibe"** of a website—the transitions, the responsiveness, the aesthetic feel—is crucial to user engagement.
+                    </p>
+                    
+                    <h3>What I Bring to the Table</h3>
+                    <p>
+                        I specialize in modern **Front-End development**, utilizing cutting-edge tools to deliver high-performance user interfaces. 
+                        My focus is on creating scalable architectures using frameworks like **React** and **Next.js**, while ensuring every project 
+                        is pixel-perfect and accessible across all devices.
+                    </p>
+                    <a href="portfolio.html" class="btn primary">View My Projects</a>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://www.dropbox.com/scl/fi/c155c99imp3btwrc2qik0/IMG-20251113-WA0101.jpg?rlkey=e82e1wc7zogma7kc639kzw9iu&st=b42p4wb1&raw=1" 
+                         alt="Cacx Portfolio Image">
+                    <h4>Cacx</h4>
+                    <span>Web Developer | Nairobi, Kenya</span>
+                    
+                    <ul class="skills-list">
+                        <li><i class="fas fa-code"></i> **Primary Languages:** HTML5, CSS3, JavaScript (ES6+)</li>
+                        <li><i class="fab fa-react"></i> **Frameworks/Libraries:** React, Next.js, Redux</li>
+                        <li><i class="fas fa-layer-group"></i> **Styling:** Tailwind CSS, SCSS, Styled Components</li>
+                        <li><i class="fas fa-database"></i> **Basic Back-End:** Node.js, REST APIs</li>
+                        <li><i class="fas fa-tools"></i> **Tools:** Git, GitHub, Figma, VS Code</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- SPIDER BACKGROUND SCRIPT - AUTONOMOUS & THEMED ---
+
+        let w, h;
+        const canvas = document.getElementById("spider-canvas"); 
+        const ctx = canvas.getContext("2d");
+        const { sin, cos, PI, hypot, min, max, abs } = Math;
+        
+        const accentColor = "#e70000"; // Deep red from your theme
+        
+        function spawn() {
+            const pts = many(333, () => {
+                return {
+                    x: rnd(innerWidth),
+                    y: rnd(innerHeight),
+                    len: 0,
+                    r: 0
+                };
+            });
+            
+            const pts2 = many(9, (i) => {
+                return {
+                    x: cos((i / 9) * PI * 2),
+                    y: sin((i / 9) * PI * 2)
+                };
+            });
+            
+            let seed = rnd(100);
+            let x = rnd(innerWidth);
+            let y = rnd(innerHeight);
+            let kx = rnd(0.5, 0.8); 
+            let ky = rnd(0.5, 0.8);
+            let walkRadius = pt(rnd(200, 350), rnd(200, 350)); 
+            let r = innerWidth / rnd(70, 120); 
+            
+            let autonomousTarget = { x: rnd(innerWidth), y: rnd(innerHeight) };
+            let nextTargetTime = rnd(3, 7); 
+            let lastTargetChange = 0;
+            let exploring = true;
+            
+            function paintPt(pt){
+                ctx.strokeStyle = accentColor;
+                ctx.fillStyle = accentColor;
+                ctx.shadowColor = accentColor;
+                ctx.shadowBlur = 10; 
+                
+                pts2.forEach((pt2) => {
+                    if (!pt.len) return;
+                    
+                    ctx.globalAlpha = pt.len * 0.4; 
+                    ctx.lineWidth = 1.5; 
+                    
+                    drawLine(
+                        lerp(x + pt2.x * r, pt.x, pt.len * pt.len),
+                        lerp(y + pt2.y * r, pt.y, pt.len * pt.len),
+                        x + pt2.x * r,
+                        y + pt2.y * r
+                    );
+                });
+                
+                ctx.globalAlpha = 1; 
+                drawCircle(pt.x, pt.y, pt.r * 2); 
+                
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+                ctx.lineWidth = 1; 
+            }
+          
+            return {
+                tick(t) {
+                    if (t - lastTargetChange > nextTargetTime) {
+                        autonomousTarget.x = rnd(innerWidth * 0.1, innerWidth * 0.9);
+                        autonomousTarget.y = rnd(innerHeight * 0.1, innerHeight * 0.9);
+                        nextTargetTime = rnd(2, 8); 
+                        lastTargetChange = t;
+                        exploring = !exploring;
+                        
+                        walkRadius.x = rnd(200, exploring ? 400 : 250);
+                        walkRadius.y = rnd(200, exploring ? 400 : 250);
+                        kx = rnd(0.4, exploring ? 0.7 : 0.6); 
+                        ky = rnd(0.4, exploring ? 0.7 : 0.6); 
+                    }
+                    
+                    const selfMoveX = cos(t * kx + seed) * walkRadius.x;
+                    const selfMoveY = sin(t * ky + seed) * walkRadius.y;
+                    
+                    const jitterX = cos(t * 3.7 + seed) * 10; 
+                    const jitterY = sin(t * 4.3 + seed) * 10; 
+                    
+                    let targetX = autonomousTarget.x;
+                    let targetY = autonomousTarget.y;
+                    
+                    let fx = targetX + selfMoveX + jitterX;
+                    let fy = targetY + selfMoveY + jitterY;
+                    
+                    const speed = 10; 
+                    x += min(innerWidth / 80, (fx - x) / speed);
+                    y += min(innerWidth / 80, (fy - y) / speed);
+                    
+                    let i = 0;
+                    pts.forEach((pt) => {
+                        const dx = pt.x - x;
+                        const dy = pt.y - y;
+                        const len = hypot(dx, dy);
+                        
+                        let webRadius = innerWidth / 10; 
+                        
+                        let r = min(2, webRadius / len / 5);
+                        pt.t = 0;
+                        const increasing = len < webRadius && (i++) < 10; 
+                        let dir = increasing ? 0.15 : -0.1; 
+                        if (increasing) {
+                            r *= 1.8; 
+                        }
+                        pt.r = r;
+                        pt.len = max(0, min(pt.len + dir, 1));
+                        
+                        paintPt(pt);
+                    });
+                } 
+            };
+        }
+
+        const spiders = many(5, spawn); 
+        
+        requestAnimationFrame(function anim(t) {
+            if (w !== innerWidth) w = canvas.width = innerWidth;
+            if (h !== innerHeight) h = canvas.height = innerHeight;
+            
+            ctx.fillStyle = "rgba(0, 0, 0, 0.03)"; 
+            ctx.fillRect(0, 0, w, h);
+            
+            t /= 1000;
+            spiders.forEach(spider => spider.tick(t));
+            requestAnimationFrame(anim);
+        });
+
+        // --- Utility Functions ---
+        function rnd(x = 1, dx = 0) {
+            return Math.random() * x + dx;
+        }
+
+        function drawCircle(x, y, r) {
+            ctx.beginPath();
+            ctx.ellipse(x, y, r, r, 0, 0, PI * 2);
+            ctx.fill();
+        }
+
+        function drawLine(x0, y0, x1, y1) {
+            ctx.beginPath();
+            ctx.moveTo(x0, y0);
+            
+            many(80, (i) => { 
+                i = (i + 1) / 80;
+                let x = lerp(x0, x1, i);
+                let y = lerp(y0, y1, i);
+                let k = noise(x/8 + x0, y/8 + y0) * 2; 
+                ctx.lineTo(x + k, y + k);
+            });
+            ctx.stroke();
+        }
+
+        function many(n, f) {
+            return [...Array(n)].map((_, i) => f(i));
+        }
+
+        function lerp(a, b, t) {
+            return a + (b - a) * t;
+        }
+
+        function noise(x, y, t = 101) {
+            let w0 = sin(0.3 * x + 1.4 * t + 2.0 + 
+                         2.5 * sin(0.4 * y + -1.3 * t + 1.0));
+            let w1 = sin(0.2 * y + 1.5 * t + 2.8 + 
+                         2.3 * sin(0.5 * x + -1.2 * t + 0.5));
+            return w0 + w1;
+        }
+
+        function pt(x, y) {
+            return {x, y};
+        }
+    </script>
+
+</body>
+</html>
